@@ -17,14 +17,32 @@ export class RiotService {
     };
   }
 
-  async getPuuidByNameAndTag(name: string, tag: string) {
+  async getPuuidByNameAndTag(name: string, tag: string): Promise<string> {
     const result = await fetch(
-      this.krUrl + '/riot/account/v1/accounts/by-riot-id/' + name + '/' + tag,
+      this.asiaUrl + '/riot/account/v1/accounts/by-riot-id/' + name + '/' + tag,
       {
         method: 'GET',
         headers: this.header,
       },
     );
+    if (result.status === 404) {
+      throw new Error('User Not Found');
+    }
+    const data = await result.json();
+    return data.puuid;
+  }
+
+  async getMatchByPuuid(puuid: string) {
+    const result = await fetch(
+      this.krUrl + '/lol/spectator/v5/active-games/by-summoner/' + puuid,
+      {
+        method: 'GET',
+        headers: this.header,
+      },
+    );
+    if (result.status === 404) {
+      throw new Error('Match Not Found');
+    }
     return await result.json();
   }
 }
