@@ -1,0 +1,7 @@
+@endpoint = http://localhost:3000
+
+### temp
+GET {{endpoint}}/accounts
+
+### temp2
+GET {{endpoint}}/accounts/puuid
