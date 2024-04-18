@@ -8,9 +8,8 @@ export class MatchService {
   async getMatchByFullname(fullname: string) {
     const [name, tag] = fullname.split('#');
     const puuid = await this.riotService.getPuuidByNameAndTag(name, tag);
-
-    const result = await this.riotService.getMatchByPuuid(puuid);
-    // const participants = result.participants;
+    const participants = await this.riotService.getMatchByPuuid(puuid);
+    console.log(participants);
     return;
   }
 }
