@@ -1,6 +1,6 @@
 export type Participant = {
   championId: number;
-  parkIds: number[];
+  perkIds: number[];
   teamId: number;
   puuid: string;
   spell1Id: number;

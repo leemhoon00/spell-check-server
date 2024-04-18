@@ -33,7 +33,7 @@ export class RiotService {
     return data.puuid;
   }
 
-  async getMatchByPuuid(puuid: string): Promise<Participant[]> {
+  async getParticipantsByPuuid(puuid: string): Promise<Participant[]> {
     const result = await fetch(
       this.krUrl + '/lol/spectator/v5/active-games/by-summoner/' + puuid,
       {
@@ -45,15 +45,21 @@ export class RiotService {
       throw new Error('Match Not Found');
     }
     const data = await result.json();
-    return data.participants.map((participant: any) => {
+    const participants = data.participants.map((participant: any) => {
       return {
         championId: participant.championId,
-        parkIds: participant.perks.perkIds,
+        perkIds: participant.perks.perkIds,
         teamId: participant.teamId,
         puuid: participant.puuid,
         spell1Id: participant.spell1Id,
         spell2Id: participant.spell2Id,
       };
     });
+    const me = participants.find(
+      (participant: any) => participant.puuid === puuid,
+    );
+    return participants.filter(
+      (participant: any) => participant.teamId !== me.teamId,
+    );
   }
 }
