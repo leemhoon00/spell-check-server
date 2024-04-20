@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { RiotModule } from './riot/riot.module';
 import { MatchModule } from './match/match.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PrismaModule } from './prisma/prisma.module';
     RiotModule,
     MatchModule,
     PrismaModule,
+    EventsModule,
   ],
 })
 export class AppModule {}
