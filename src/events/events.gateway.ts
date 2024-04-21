@@ -7,7 +7,7 @@ import {
   WebSocketServer,
   MessageBody,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Socket, Namespace } from 'socket.io';
 import { MatchService } from 'src/match/match.service';
 
 @WebSocketGateway({ namespace: /.+/, cors: { origin: '*' } })
@@ -15,7 +15,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private matchService: MatchService) {}
 
   @WebSocketServer()
-  server: Server;
+  io: Namespace;
 
   @SubscribeMessage('test')
   handleTest(@MessageBody() data: string) {
@@ -32,14 +32,19 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
-    setTimeout(() => {
-      if (this.getNspClientsNumber(client.nsp.name) === 0) {
-        this.matchService.removeMatchById(client.nsp.name.split('/')[1]);
-      }
-    }, 10000);
+    console.log('disconnect');
+    if (this.getNspClientsNumber(client.nsp.name) === 0) {
+      console.log('0명');
+      setTimeout(() => {
+        if (this.getNspClientsNumber(client.nsp.name) === 0) {
+          console.log('10초 뒤 0명');
+          this.matchService.removeMatchById(client.nsp.name.split('/')[1]);
+        }
+      }, 10000);
+    }
   }
 
   getNspClientsNumber(nsp: string) {
-    return this.server.of(nsp).sockets.size;
+    return this.io.server.of(nsp).sockets.size;
   }
 }
