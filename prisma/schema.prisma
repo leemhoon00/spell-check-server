@@ -8,12 +8,37 @@ datasource db {
 }
 
 model Champion {
-  code Int    @id
-  name String
+  code   Int      @id
+  name   String
+  Player Player[]
 }
 
 model Spell {
   code     Int    @id
   name     String
   cooldown Int
+
+  spell1Player Player[] @relation("spell1")
+  spell2Player Player[] @relation("spell2")
+}
+
+model Match {
+  id      String   @id @default(uuid())
+  players Player[]
+}
+
+model Player {
+  matchId      String
+  championCode Int
+  spell1Code   Int
+  spell2Code   Int
+  runeBoost    Boolean
+  ionianBoost  Boolean @default(false)
+
+  Match    Match    @relation(fields: [matchId], references: [id])
+  champion Champion @relation(fields: [championCode], references: [code])
+  spell1   Spell    @relation("spell1", fields: [spell1Code], references: [code])
+  spell2   Spell    @relation("spell2", fields: [spell2Code], references: [code])
+
+  @@id([matchId, championCode])
 }

@@ -8,10 +8,17 @@ export class MatchController {
   @Get()
   async getMatch(@Query('fullname') fullname: string) {
     try {
-      return await this.matchService.getMatchByFullname(fullname);
+      return await this.matchService.createMatch(fullname);
     } catch (e) {
       if (e instanceof Error) {
-        throw new HttpException(e.message, 404);
+        if (e.message === 'User Not Found') {
+          throw new HttpException('User Not Found', 404);
+        } else if (e.message === 'Match Not Found') {
+          throw new HttpException('Match Not Found', 404);
+        } else {
+          console.error(e);
+          throw new HttpException('Internal Server Error', 500);
+        }
       }
     }
   }
