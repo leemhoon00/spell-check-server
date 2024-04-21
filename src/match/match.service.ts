@@ -29,4 +29,12 @@ export class MatchService {
     const puuid = await this.riotService.getPuuidByNameAndTag(name, tag);
     return await this.riotService.getParticipantsByPuuid(puuid);
   }
+
+  async getMatchById(matchId: string) {
+    return this.matchRepository.getMatchById(matchId);
+  }
+
+  async removeMatchById(matchId: string) {
+    return this.matchRepository.removeMatchById(matchId);
+  }
 }

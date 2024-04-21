@@ -23,4 +23,27 @@ export class MatchRepository {
       },
     });
   }
+
+  async getMatchById(matchId: string) {
+    return this.prisma.match.findUnique({
+      where: { id: matchId },
+      select: {
+        players: {
+          select: {
+            champion: true,
+            spell1: true,
+            spell2: true,
+            runeBoost: true,
+            ionianBoost: true,
+          },
+        },
+      },
+    });
+  }
+
+  async removeMatchById(matchId: string) {
+    return this.prisma.match.delete({
+      where: { id: matchId },
+    });
+  }
 }

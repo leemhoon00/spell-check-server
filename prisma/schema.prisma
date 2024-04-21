@@ -35,7 +35,7 @@ model Player {
   runeBoost    Boolean
   ionianBoost  Boolean @default(false)
 
-  Match    Match    @relation(fields: [matchId], references: [id])
+  Match    Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
   champion Champion @relation(fields: [championCode], references: [code])
   spell1   Spell    @relation("spell1", fields: [spell1Code], references: [code])
   spell2   Spell    @relation("spell2", fields: [spell2Code], references: [code])

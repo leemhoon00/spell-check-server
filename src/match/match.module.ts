@@ -8,5 +8,6 @@ import { MatchRepository } from './match.repository';
   imports: [RiotModule],
   controllers: [MatchController],
   providers: [MatchService, MatchRepository],
+  exports: [MatchService],
 })
 export class MatchModule {}
