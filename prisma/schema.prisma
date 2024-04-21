@@ -7,6 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Version {
+  version String @id
+}
+
 model Champion {
   code   Int      @id
   name   String

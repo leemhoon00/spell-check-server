@@ -6,6 +6,12 @@ const prisma = new PrismaClient();
 async function main() {
   const version = await getVersion();
 
+  await prisma.version.create({
+    data: {
+      version,
+    },
+  });
+
   const champions = await getChampionList(version);
   const championInput = champions.map((champion) => {
     return {
