@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 async function main() {
   const version = await getVersion();
 
+  await prisma.version.deleteMany();
   await prisma.version.create({
     data: {
       version,

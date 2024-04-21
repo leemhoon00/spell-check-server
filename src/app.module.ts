@@ -4,6 +4,7 @@ import { RiotModule } from './riot/riot.module';
 import { MatchModule } from './match/match.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { EventsModule } from './events/events.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -17,5 +18,6 @@ import { EventsModule } from './events/events.module';
     PrismaModule,
     EventsModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
